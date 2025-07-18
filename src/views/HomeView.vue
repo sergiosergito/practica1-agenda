@@ -151,7 +151,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              @click="eliminar(index)"
+              @click="eliminar(item.id)"
             >
               eliminar
             </button>
@@ -197,11 +197,8 @@ export default {
   },
   mounted() {},
   methods: {
-    abrirModal(index) {
-      console.log(`editando ${index}`);
-    },
-    eliminar(index) {
-      console.log(`eliminando ${index}`);
+    eliminar(id) {
+      this.contacts = this.contacts.filter((c) => c.id !== id);
     },
 
     assignID() {

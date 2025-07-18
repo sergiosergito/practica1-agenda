@@ -1,6 +1,13 @@
 <template>
   <div class="Main">
     <HelloWorld msg="Agenda de contactos" />
+    <p>Filtrar</p>
+    <input
+      type="text"
+      v-model="filterName"
+      class="form-control mb-3"
+      placeholder="Filtrar"
+    />
     <table class="table table-bordered border-primary">
       <thead>
         <tr>
@@ -13,7 +20,6 @@
           <th scope="col">City</th>
           <th></th>
         </tr>
-
         <tr>
           <th scope="col">
             <button type="button" class="btn btn-primary" @click="crearNuevo()">
@@ -132,7 +138,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in obtenerLista" :key="item.id">
+        <tr v-for="(item, index) in contactosFiltrados" :key="item.id">
           <th scope="row">{{ item.id }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
@@ -193,6 +199,7 @@ export default {
       editContactPhone: "",
       editContactCountry: "",
       editContactCity: "",
+      filterName: "",
     };
   },
   mounted() {},
@@ -290,6 +297,12 @@ export default {
     obtenerLista() {
       let results = [...this.contacts];
       return results;
+    },
+    contactosFiltrados() {
+      if (!this.filterName.trim()) return this.contacts;
+      return this.contacts.filter((contact) =>
+        contact.name.toLowerCase().includes(this.filterName.toLowerCase())
+      );
     },
   },
 };

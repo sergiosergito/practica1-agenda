@@ -13,6 +13,63 @@
           <th scope="col">City</th>
           <th></th>
         </tr>
+
+        <tr>
+          <th scope="col">
+            <button type="button" class="btn btn-primary" @click="crearNuevo()">
+              Guardar
+            </button>
+          </th>
+          <th scope="col">
+            <input
+              type="text"
+              v-model="newContactName"
+              class="form-control"
+              placeholder="Ingresar nombre"
+            />
+          </th>
+          <th scope="col">
+            <input
+              type="text"
+              v-model="newContactEmail"
+              class="form-control"
+              placeholder="Ingresar correo"
+            />
+          </th>
+          <th scope="col">
+            <input
+              type="text"
+              v-model="newContactAddress"
+              class="form-control"
+              placeholder="Ingresar Dirección"
+            />
+          </th>
+          <th scope="col">
+            <input
+              type="text"
+              v-model="newContactPhone"
+              class="form-control"
+              placeholder="Ingresar teléfono"
+            />
+          </th>
+          <th scope="col">
+            <input
+              type="text"
+              v-model="newContactCountry"
+              class="form-control"
+              placeholder="Ingresar País"
+            />
+          </th>
+          <th scope="col">
+            <input
+              type="text"
+              v-model="newContactCity"
+              class="form-control"
+              placeholder="Ingresar Ciudad"
+            />
+          </th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in obtenerLista" :key="item.id">
@@ -46,8 +103,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
+import Contact from "@/features/Contact.model";
 import { getContacts } from "@/services/contacts.data";
 
 export default {
@@ -62,32 +119,61 @@ export default {
       modalBootstrapInstance: null,
       modalMode: "crear",
       itemSeleccionado: null,
+      newID: 0,
+      newContactName: "",
+      newContactEmail: "",
+      newContactAddress: "",
+      newContactPhone: "",
+      newContactCountry: "",
+      newContactCity: "",
+      newContact: null,
     };
   },
   mounted() {},
   methods: {
     abrirModal(index) {
-      //this.autoSeleccionado = null;
-      //this.indiceSeleccionado = index;
-      //this.modalMode = "editar";
-      //setTimeout(() => {
-      /*
-        if (this.modalBootstrapInstance) {
-          this.modalBootstrapInstance.show();
-          this.autoSeleccionado = { ...this.items[index] };
-        } else {
-          console.error("modalBootstrapInstance no está inicializado");
-        }*/
-      //});
       console.log(`editando ${index}`);
     },
     eliminar(index) {
       console.log(`eliminando ${index}`);
-      /*
-      if (confirm("¿Está seguro de eliminar este auto?")) {
-        this.items.splice(index, 1);
+    },
+
+    assignID() {
+      if (this.contacts.length === 0) return 1;
+      const maxId = Math.max(...this.contacts.map((c) => c.id));
+      return maxId + 1;
+    },
+
+    crearNuevo() {
+      if (
+        this.newContactName.trim() &&
+        this.newContactEmail.trim() &&
+        this.newContactAddress.trim() &&
+        this.newContactPhone.trim() &&
+        this.newContactCity.trim() &&
+        this.newContactCountry.trim()
+      ) {
+        this.newID = this.assignID();
+        this.newContact = new Contact(
+          this.newID,
+          this.newContactName,
+          this.newContactEmail,
+          this.newContactAddress,
+          this.newContactPhone,
+          this.newContactCountry,
+          this.newContactCity
+        );
+        console.log(this.newContact);
+        this.contacts.push(this.newContact);
+      } else {
+        this.newContact = null;
+        this.newContactName = "";
+        this.newContactEmail = "";
+        this.newContactAddress = "";
+        this.newContactPhone = "";
+        this.newContactCountry = "";
+        this.newContactCity = "";
       }
-      */
     },
   },
   computed: {

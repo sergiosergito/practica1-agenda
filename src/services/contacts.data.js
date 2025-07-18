@@ -38,6 +38,15 @@ export function getContacts() {
       "Australia",
       "Sydney"
     ),
+    new Contact(
+      5,
+      "Emily Davis",
+      "emily.davis@example.com",
+      "654 Spruce Lane",
+      "333-444-5555",
+      "USA",
+      "Los Angeles"
+    ),
   ];
 
   return mockData;
